@@ -2,6 +2,8 @@ package com.atguigu.lease.web.admin.mapper;
 
 import com.atguigu.lease.model.entity.UserInfo;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 
 /**
 * @author liubo
@@ -10,7 +12,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 * @Entity com.atguigu.lease.model.UserInfo
 */
 public interface UserInfoMapper extends BaseMapper<UserInfo> {
-
+	IPage<UserInfo> selectUserPage(int current, int page);
 }
 
 
