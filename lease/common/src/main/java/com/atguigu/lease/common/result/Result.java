@@ -43,6 +43,10 @@ public class Result<T> {
         return Result.ok(null);
     }
 
+    public static <T> Result<T> fail(ResultCodeEnum resultCodeEnum) {
+        return build(null, resultCodeEnum);
+    }
+
     public static <T> Result<T> fail() {
         return build(null, ResultCodeEnum.FAIL);
     }

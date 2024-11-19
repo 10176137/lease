@@ -5,6 +5,7 @@ import com.atguigu.lease.web.admin.vo.system.user.SystemUserItemVo;
 import com.atguigu.lease.web.admin.vo.system.user.SystemUserQueryVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
 * @author liubo
@@ -12,5 +13,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-07-24 15:48:00
 */
 public interface SystemUserService extends IService<SystemUser> {
-
+	IPage<SystemUserItemVo> queryPage( long current,  long size, SystemUserQueryVo queryVo);
+	SystemUserItemVo getById(Long id);
+	boolean isUsernameExists(String username);
 }

@@ -4,5 +4,16 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.lease.web.admin.mapper.SystemUserMapper">
 
-
+<select id="selectQueryPage" resultMap="SystemUserVo">
+ select * from system_user ${ew.customSqlSegment}
+</select>
+    <resultMap id="SystemUserVo" type="com.atguigu.lease.web.admin.vo.system.user.SystemUserItemVo">
+        <association property="postName" column="post_id" select="selectPostNameByPostId"/>
+    </resultMap>
+    <select id="selectPostNameByPostId" resultType="String">
+        select name from system_post where id = #{post_id}
+    </select>
+    <select id="getById" resultMap="SystemUserVo">
+        select * from system_user where id = #{id}
+    </select>
 </mapper>

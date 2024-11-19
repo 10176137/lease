@@ -3,9 +3,11 @@ package com.atguigu.lease.web.admin.controller.system;
 import com.atguigu.lease.common.result.Result;
 import com.atguigu.lease.model.entity.SystemPost;
 import com.atguigu.lease.model.enums.BaseStatus;
+import com.atguigu.lease.web.admin.service.SystemPostService;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.List;
 @RequestMapping("/admin/system/post")
 public class SystemPostController {
 
+    @Autowired
+    private SystemPostService systemPostService;
     @Operation(summary = "分页获取岗位信息")
     @GetMapping("page")
     private Result<IPage<SystemPost>> page(@RequestParam long current, @RequestParam long size) {
@@ -44,7 +48,8 @@ public class SystemPostController {
     @Operation(summary = "获取全部岗位列表")
     @GetMapping("list")
     public Result<List<SystemPost>> list() {
-        return Result.ok();
+        List<SystemPost> list = systemPostService.list();
+        return Result.ok(list);
     }
 
     @Operation(summary = "根据岗位id修改状态")
