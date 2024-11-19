@@ -1,11 +1,13 @@
 package com.atguigu.lease.web.admin.service.impl;
 
 import com.atguigu.lease.model.entity.SystemUser;
+import com.atguigu.lease.model.enums.BaseStatus;
 import com.atguigu.lease.web.admin.vo.user.UserInfoQueryVo;
 import com.baomidou.mybatisplus.core.conditions.AbstractWrapper;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.segments.MergeSegments;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.injector.methods.SelectPage;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -43,6 +45,13 @@ public class UserInfoServiceImpl extends ServiceImpl<UserInfoMapper, UserInfo>
 						eq(queryVo.getPhone() != null, UserInfo::getPhone, queryVo.getPhone()).
 						eq(queryVo.getStatus() != null, UserInfo::getStatus, queryVo.getStatus()));
 		return userInfoIPage;
+	}
+
+	@Override
+	public void updateStatusById(Long id, BaseStatus status) {
+		userInfoMapper.update(new LambdaUpdateWrapper<UserInfo>().
+				set(status != null ? true : false, UserInfo::getStatus, status).
+				eq(id != null ? true : false, UserInfo::getId, id));
 	}
 }
 

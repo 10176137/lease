@@ -32,6 +32,7 @@ public class UserInfoController {
     @Operation(summary = "根据用户id更新账号状态")
     @PostMapping("updateStatusById")
     public Result updateStatusById(@RequestParam Long id, @RequestParam BaseStatus status) {
+        userInfoService.updateStatusById(id, status);
         return Result.ok();
     }
 }
