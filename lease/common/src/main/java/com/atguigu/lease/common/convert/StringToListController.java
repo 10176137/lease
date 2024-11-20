@@ -1,12 +1,10 @@
-package com.atguigu.lease.common.webmvc;
+package com.atguigu.lease.common.convert;
 
 import com.atguigu.lease.model.enums.BaseStatus;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Component
 public class StringToListController implements Converter<String, BaseStatus> {

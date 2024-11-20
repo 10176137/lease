@@ -8,6 +8,7 @@ import com.atguigu.lease.web.admin.vo.apartment.ApartmentSubmitVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
 * @author liubo
@@ -15,5 +16,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-07-24 15:48:00
 */
 public interface ApartmentInfoService extends IService<ApartmentInfo> {
+	IPage<ApartmentItemVo> pageItem( long current,  long size, ApartmentQueryVo queryVo);
 
+	ApartmentDetailVo getDetailById(Long id);
 }

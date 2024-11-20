@@ -4,7 +4,11 @@ package com.atguigu.lease.web.admin.vo.apartment;
 import com.atguigu.lease.model.entity.ApartmentInfo;
 import com.atguigu.lease.web.admin.vo.graph.GraphVo;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.util.List;
 

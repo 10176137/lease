@@ -3,66 +3,71 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.lease.web.admin.mapper.ApartmentInfoMapper">
+    <select id="pageItem" resultMap="ApartmentItemVo">
+        select *
+        from apartment_info ${ew.customSqlSegment}
+    </select>
 
-    <select id="pageItem" resultType="com.atguigu.lease.web.admin.vo.apartment.ApartmentItemVo">
-        select ai.id,
-               ai.name,
-               ai.introduction,
-               ai.district_id,
-               ai.district_name,
-               ai.city_id,
-               ai.city_name,
-               ai.province_id,
-               ai.province_name,
-               ai.address_detail,
-               ai.latitude,
-               ai.longitude,
-               ai.phone,
-               ai.is_release,
-               ifnull(tc.cnt, 0)                     total_room_count,
-               ifnull(tc.cnt, 0) - ifnull(cc.cnt, 0) free_room_count
-        from (select id,
-                     name,
-                     introduction,
-                     district_id,
-                     district_name,
-                     city_id,
-                     city_name,
-                     province_id,
-                     province_name,
-                     address_detail,
-                     latitude,
-                     longitude,
-                     phone,
-                     is_release
-              from apartment_info
-                <where>
-                    is_deleted=0
-                    <if test="queryVo.provinceId != null">
-                        and province_id=#{queryVo.provinceId}
-                    </if>
-                    <if test="queryVo.cityId != null">
-                        and city_id=#{queryVo.cityId}
-                    </if>
-                    <if test="queryVo.districtId != null">
-                        and district_id=#{queryVo.districtId}
-                    </if>
-                </where>
-              ) ai
-                 left join
-             (select apartment_id,
-                     count(*) cnt
-              from room_info
-              where is_deleted = 0
-              group by apartment_id) tc
-             on ai.id = tc.apartment_id
-                 left join
-             (select apartment_id,
-                     count(*) cnt
-              from lease_agreement
-              where is_deleted = 0
-                and status in (2, 5)
-              group by apartment_id) cc
-             on ai.id = cc.apartment_id
+    <resultMap id="ApartmentItemVo" type="com.atguigu.lease.web.admin.vo.apartment.ApartmentItemVo">
+        <id column="id" property="id"/>
+        <association property="totalRoomCount" column="id" select="totalRoomCount"/>
+        <association property="freeRoomCount" column="id" select="freeRoomCount"/>
+    </resultMap>
+
+    <select id="totalRoomCount" resultType="Long">
+        select count(*)
+        from room_info
+        where is_deleted = 0
+          and apartment_id = #{id}
+    </select>
+
+    <select id="freeRoomCount" resultType="Long">
+        select count(*)
+        from room_info
+        where is_deleted = 0
+          and is_release = 1
+          and apartment_id = #{id}
+    </select>
+
+    <select id="getDetailById" resultMap="ApartmentDetailVo">
+        select *
+        from apartment_info
+        where id = #{id}
+    </select>
+
+    <resultMap id="ApartmentDetailVo" type="com.atguigu.lease.web.admin.vo.apartment.ApartmentDetailVo">
+        <id column="id" property="id"/>
+        <association property="graphVoList" column="id" select="graphVoList"/>
+        <association property="labelInfoList" column="id" select="labelInfoList"/>
+        <association property="facilityInfoList" column="id" select="facilityInfoList"/>
+        <association property="feeValueVoList" column="id" select="feeValueVoList"/>
+    </resultMap>
+
+    <select id="graphVoList" resultType="com.atguigu.lease.web.admin.vo.graph.GraphVo">
+        select *
+        from graph_info
+        where graph_info.item_type = 1
+          and graph_info.item_id = #{id}
+    </select>
+
+    <select id="labelInfoList" resultType="com.atguigu.lease.model.entity.LabelInfo">
+        select *
+        from label_info
+                 join apartment_label on label_info.id = apartment_label.label_id
+        where apartment_id = #{id}
+    </select>
+
+    <select id="facilityInfoList" resultType="com.atguigu.lease.model.entity.FacilityInfo">
+        select *
+        from facility_info
+                 join apartment_facility on facility_info.id = apartment_facility.facility_id
+        where apartment_id = #{id}
+    </select>
+
+    <select id="feeValueVoList" resultType="com.atguigu.lease.web.admin.vo.fee.FeeValueVo">
+        select *
+        from fee_value
+                 join apartment_fee_value on fee_value.id = apartment_fee_value.fee_value_id
+        where apartment_id = #{id}
     </select>
 </mapper>

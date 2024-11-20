@@ -24,6 +24,8 @@ public class LeaseAgreementController {
     @Operation(summary = "保存或修改租约信息")
     @PostMapping("saveOrUpdate")
     public Result saveOrUpdate(@RequestBody LeaseAgreement leaseAgreement) {
+        // todo
+        // 对新添加进行数据监测，暂时用string的正则匹配来判断
         leaseAgreementService.saveOrUpdate(leaseAgreement);
         return Result.ok();
     }

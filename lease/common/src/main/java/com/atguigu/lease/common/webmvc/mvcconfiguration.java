@@ -1,5 +1,9 @@
 package com.atguigu.lease.common.webmvc;
 
+
+import com.atguigu.lease.common.convert.StringConvertItemType;
+import com.atguigu.lease.common.convert.StringConvertReleaseStatus;
+import com.atguigu.lease.common.convert.StringToListController;
 import com.atguigu.lease.common.interceptor.Interceptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
@@ -13,17 +17,23 @@ public class mvcconfiguration implements WebMvcConfigurer {
 	Interceptor interceptor;
 	@Autowired
 	StringToListController stringToListController;
+	@Autowired
+	StringConvertItemType stringConvertItemType;
+	@Autowired
+	StringConvertReleaseStatus stringConvertReleaseStatus;
+
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
 
 		registry.addInterceptor(interceptor).addPathPatterns("/**").excludePathPatterns("/admin/login/**");
 	}
-	@Override
 
+	@Override
 	public void addFormatters(FormatterRegistry registry) {
 		registry.addConverter(stringToListController);
+		registry.addConverter(stringConvertReleaseStatus);
+		registry.addConverter(stringConvertItemType);
 	}
-
 
 }

@@ -4,7 +4,10 @@ import com.atguigu.lease.model.enums.ReleaseStatus;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Schema(description = "公寓信息表")
 @TableName(value = "apartment_info")
