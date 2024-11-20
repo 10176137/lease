@@ -77,8 +77,8 @@ public class SystemUserController {
 		if (id == null) {
 			return Result.fail();
 		}
-
-		systemUserService.update(new LambdaUpdateWrapper<SystemUser>().set(SystemUser::getStatus, status).eq(SystemUser::getId, id));
+		SystemUser systemUser = new SystemUser();
+		systemUserService.update(systemUser, new LambdaUpdateWrapper<SystemUser>().set(SystemUser::getStatus, status).eq(SystemUser::getId, id));
 		return Result.ok();
 	}
 }

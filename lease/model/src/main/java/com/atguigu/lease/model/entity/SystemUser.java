@@ -6,11 +6,18 @@ import com.baomidou.mybatisplus.annotation.FieldStrategy;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 @Schema(description = "员工信息")
 @TableName(value = "system_user")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class SystemUser extends BaseEntity {
 
 
