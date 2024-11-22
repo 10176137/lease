@@ -3,13 +3,17 @@ package com.atguigu.lease.model.entity;
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableName;
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @TableName lease_term
  */
 @TableName(value = "lease_term")
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Schema(description = "租期信息")
 public class LeaseTerm extends BaseEntity {
 

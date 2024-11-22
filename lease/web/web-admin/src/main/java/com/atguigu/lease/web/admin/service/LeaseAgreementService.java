@@ -15,4 +15,5 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface LeaseAgreementService extends IService<LeaseAgreement> {
 
 	IPage<AgreementVo> queryPage( long current,  long size, AgreementQueryVo queryVo);
+	AgreementVo getAgreementVoById(Long id);
 }

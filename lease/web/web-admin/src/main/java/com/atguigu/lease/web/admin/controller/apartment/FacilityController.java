@@ -25,7 +25,7 @@ public class FacilityController {
     @Operation(summary = "[根据类型]查询配套信息列表")
     @GetMapping("list")
     public Result<List<FacilityInfo>> listFacility(@RequestParam(required = false) ItemType type) {
-        List<FacilityInfo> list = facilityInfoService.list(new LambdaQueryWrapper<FacilityInfo>().eq(FacilityInfo::getType, type).eq(FacilityInfo::getIsDeleted, 0));
+        List<FacilityInfo> list = facilityInfoService.list(new LambdaQueryWrapper<FacilityInfo>().eq(type!=null ,FacilityInfo::getType, type).eq(FacilityInfo::getIsDeleted, 0));
         return Result.ok(list);
     }
 

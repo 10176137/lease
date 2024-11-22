@@ -3,10 +3,13 @@ package com.atguigu.lease.web.admin.controller.lease;
 
 import com.atguigu.lease.common.result.Result;
 import com.atguigu.lease.model.entity.LeaseAgreement;
+import com.atguigu.lease.model.entity.ViewAppointment;
 import com.atguigu.lease.model.enums.LeaseStatus;
 import com.atguigu.lease.web.admin.service.LeaseAgreementService;
 import com.atguigu.lease.web.admin.vo.agreement.AgreementQueryVo;
 import com.atguigu.lease.web.admin.vo.agreement.AgreementVo;
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -40,18 +43,26 @@ public class LeaseAgreementController {
     @Operation(summary = "根据id查询租约信息")
     @GetMapping(name = "getById")
     public Result<AgreementVo> getById(@RequestParam Long id) {
-        return Result.ok();
+        AgreementVo agreementVo = leaseAgreementService.getAgreementVoById(id);
+        return Result.ok(agreementVo);
     }
 
     @Operation(summary = "根据id删除租约信息")
     @DeleteMapping("removeById")
     public Result removeById(@RequestParam Long id) {
+        LeaseAgreement leaseAgreement = new LeaseAgreement() ;
+        leaseAgreement.setId(id);
+        leaseAgreementService.update(leaseAgreement,new LambdaUpdateWrapper<LeaseAgreement>().set(LeaseAgreement::getIsDeleted,1).eq(LeaseAgreement::getId,id));
         return Result.ok();
     }
 
     @Operation(summary = "根据id更新租约状态")
     @PostMapping("updateStatusById")
     public Result updateStatusById(@RequestParam Long id, @RequestParam LeaseStatus status) {
+        LeaseAgreement leaseAgreement = new LeaseAgreement() ;
+        leaseAgreement.setId(id);
+        leaseAgreement.setStatus(status);
+        leaseAgreementService.updateById(leaseAgreement);
         return Result.ok();
     }
 

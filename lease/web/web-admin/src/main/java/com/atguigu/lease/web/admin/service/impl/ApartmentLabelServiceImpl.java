@@ -2,6 +2,7 @@ package com.atguigu.lease.web.admin.service.impl;
 
 import com.atguigu.lease.model.entity.ApartmentFeeValue;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.atguigu.lease.model.entity.ApartmentLabel;
 import com.atguigu.lease.web.admin.service.ApartmentLabelService;
@@ -32,7 +33,7 @@ public class ApartmentLabelServiceImpl extends ServiceImpl<ApartmentLabelMapper,
 			return true;
 		}
 		apartmentLabels.get(0).setIsDeleted(Byte.valueOf("0"));
-		apartmentLabelMapper.update(apartmentLabels.get(0), new LambdaQueryWrapper<ApartmentLabel>().eq(ApartmentLabel::getId, apartmentLabels.get(0).getId()));
+		apartmentLabelMapper.update(apartmentLabels.get(0), new LambdaUpdateWrapper<ApartmentLabel>().eq(ApartmentLabel::getId, apartmentLabels.get(0).getId()));
 
 		return true;
 	}

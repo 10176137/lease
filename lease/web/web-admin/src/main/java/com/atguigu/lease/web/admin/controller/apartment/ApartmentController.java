@@ -44,19 +44,27 @@ public class ApartmentController {
 
 		ApartmentLabel apartmentLabel = ApartmentLabel.builder().build();
 		apartmentLabel.setIsDeleted(Byte.valueOf("1"));
+
 		ApartmentFacility apartmentFacility = ApartmentFacility.builder().build();
 		apartmentFacility.setIsDeleted(Byte.valueOf("1"));
+
 		ApartmentFeeValue apartmentFeeValue = ApartmentFeeValue.builder().build();
 		apartmentFeeValue.setIsDeleted(Byte.valueOf("1"));
-		apartmentLabelService.update(apartmentLabel, new LambdaQueryWrapper<ApartmentLabel>().eq(ApartmentLabel::getApartmentId, apartmentSubmitVo.getId()));
+
+		apartmentLabelService.update(apartmentLabel, new LambdaUpdateWrapper<ApartmentLabel>().eq(ApartmentLabel::getApartmentId, apartmentSubmitVo.getId()));
+
 		apartmentFacilityService.update(apartmentFacility, new LambdaUpdateWrapper<ApartmentFacility>().eq(ApartmentFacility::getApartmentId, apartmentSubmitVo.getId()));
+
 		apartmentFeeValueService.update(apartmentFeeValue, new LambdaUpdateWrapper<ApartmentFeeValue>().eq(ApartmentFeeValue::getApartmentId, apartmentSubmitVo.getId()));
+
 		apartmentSubmitVo.getFacilityInfoIds().stream().forEach(apartmentInfoId -> {
 			apartmentFacilityService.saveOrUpdate(apartmentInfoId, apartmentSubmitVo.getId());
 		});
+
 		apartmentSubmitVo.getFeeValueIds().stream().forEach(fi -> {
 			apartmentFeeValueService.saveOrUpdate(fi, apartmentSubmitVo.getId());
 		});
+
 		apartmentSubmitVo.getLabelIds().stream().forEach(al -> {
 			apartmentLabelService.saveOrUpdate(al, apartmentSubmitVo.getId());
 		});

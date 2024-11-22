@@ -2,6 +2,7 @@ package com.atguigu.lease.web.admin.service.impl;
 
 import com.atguigu.lease.model.entity.ApartmentFacility;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.atguigu.lease.model.entity.ApartmentFeeValue;
 import com.atguigu.lease.web.admin.service.ApartmentFeeValueService;
@@ -30,8 +31,8 @@ public class ApartmentFeeValueServiceImpl extends ServiceImpl<ApartmentFeeValueM
 			apartmentFeeValueMapper.insert(ApartmentFeeValue.builder().apartmentId(apartmentId).feeValueId(apartmentFeeValueId).build());
 			return true;
 		}
-
-		apartmentFeeValueMapper.update(apartmentFeeValues.get(0), new LambdaQueryWrapper<ApartmentFeeValue>().eq(ApartmentFeeValue::getId, apartmentFeeValues.get(0).getId()));
+		apartmentFeeValues.get(0).setIsDeleted(Byte.valueOf("0"));
+		apartmentFeeValueMapper.update(apartmentFeeValues.get(0), new LambdaUpdateWrapper<ApartmentFeeValue>().eq(ApartmentFeeValue::getId, apartmentFeeValues.get(0).getId()));
 
 		return true;
 	}

@@ -19,6 +19,8 @@ import org.apache.ibatis.annotations.Param;
 public interface LeaseAgreementMapper extends BaseMapper<LeaseAgreement> {
 
   Page<AgreementVo> queryPage(Page<LeaseAgreement> page, @Param("ew") Wrapper<LeaseAgreement> updateWrapper, AgreementQueryVo queryVo);
+
+  AgreementVo getAgreementVoById(Long agreementId);
 }
 
 

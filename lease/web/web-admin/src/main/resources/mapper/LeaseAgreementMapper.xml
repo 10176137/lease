@@ -57,5 +57,8 @@
         from lease_term
         where id = #{la.lease_term_id}
     </select>
+    <select id="getAgreementVoById" resultMap="ApartmentVo">
+        select * from view_appointment where id = #{id}  and is_deleted = 0
+    </select>
 
 </mapper>

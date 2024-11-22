@@ -34,6 +34,12 @@ public class LeaseAgreementServiceImpl extends ServiceImpl<LeaseAgreementMapper,
 
 		return agreementVoPage;
 	}
+
+	@Override
+	public AgreementVo getAgreementVoById(Long id) {
+		AgreementVo agreementVoById = leaseAgreementMapper.getAgreementVoById(id);
+		return agreementVoById;
+	}
 }
 
 
