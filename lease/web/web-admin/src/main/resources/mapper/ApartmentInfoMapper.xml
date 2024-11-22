@@ -37,37 +37,38 @@
 
     <resultMap id="ApartmentDetailVo" type="com.atguigu.lease.web.admin.vo.apartment.ApartmentDetailVo">
         <id column="id" property="id"/>
-        <association property="graphVoList" column="id" select="graphVoList"/>
-        <association property="labelInfoList" column="id" select="labelInfoList"/>
-        <association property="facilityInfoList" column="id" select="facilityInfoList"/>
-        <association property="feeValueVoList" column="id" select="feeValueVoList"/>
+        <collection property="graphVoList" column="id"   select="graphVoList"/>
+        <collection property="labelInfoList" column="id"  ofType="com.atguigu.lease.model.entity.LabelInfo"  select="labelInfoList"/>
+        <collection property="facilityInfoList" column="id" select="facilityInfoList"/>
+        <collection property="feeValueVoList" column="id" select="feeValueVoList"/>
     </resultMap>
 
     <select id="graphVoList" resultType="com.atguigu.lease.web.admin.vo.graph.GraphVo">
         select *
         from graph_info
         where graph_info.item_type = 1
-          and graph_info.item_id = #{id}
+          and graph_info.item_id = #{id} and graph_info.is_deleted = 0
     </select>
 
     <select id="labelInfoList" resultType="com.atguigu.lease.model.entity.LabelInfo">
         select *
         from label_info
-                 join apartment_label on label_info.id = apartment_label.label_id
-        where apartment_id = #{id}
+                 join apartment_label on label_info.id = apartment_label.label_id and type = 1
+        where apartment_id = #{id} and apartment_label.is_deleted = 0
     </select>
 
     <select id="facilityInfoList" resultType="com.atguigu.lease.model.entity.FacilityInfo">
         select *
         from facility_info
                  join apartment_facility on facility_info.id = apartment_facility.facility_id
-        where apartment_id = #{id}
+        where apartment_id = #{id} and apartment_facility.is_deleted = 0
     </select>
 
     <select id="feeValueVoList" resultType="com.atguigu.lease.web.admin.vo.fee.FeeValueVo">
         select *
         from fee_value
                  join apartment_fee_value on fee_value.id = apartment_fee_value.fee_value_id
-        where apartment_id = #{id}
+                 join lease.fee_key fk on fk.id = fee_value.fee_key_id
+        where apartment_id = #{id} and apartment_fee_value.is_deleted = 0 and  fee_value.is_deleted =0 and fk.is_deleted = 0
     </select>
 </mapper>

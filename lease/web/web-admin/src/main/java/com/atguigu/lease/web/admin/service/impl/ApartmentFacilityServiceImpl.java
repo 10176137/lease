@@ -1,11 +1,14 @@
 package com.atguigu.lease.web.admin.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.atguigu.lease.model.entity.ApartmentFacility;
 import com.atguigu.lease.web.admin.service.ApartmentFacilityService;
 import com.atguigu.lease.web.admin.mapper.ApartmentFacilityMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
 * @author liubo
@@ -18,6 +21,19 @@ public class ApartmentFacilityServiceImpl extends ServiceImpl<ApartmentFacilityM
 
 	@Autowired
 	private ApartmentFacilityMapper apartmentFacilityMapper;
+
+	@Override
+	public boolean  saveOrUpdate(Long apartmentFacilityId, long apartmentId){
+		List<ApartmentFacility> apartmentFacilities = apartmentFacilityMapper.selectList(new LambdaQueryWrapper<ApartmentFacility>().eq(ApartmentFacility::getFacilityId, apartmentFacilityId).eq(ApartmentFacility::getApartmentId, apartmentId));
+        if(apartmentFacilities.size() == 0){
+	        apartmentFacilityMapper.insert(ApartmentFacility.builder().apartmentId(apartmentId).facilityId(apartmentFacilityId).build());
+			return true;
+        }
+
+		apartmentFacilityMapper.update(apartmentFacilities.get(0), new LambdaQueryWrapper<ApartmentFacility>().eq(ApartmentFacility::getId, apartmentFacilities.get(0).getId()));
+
+		return true;
+	}
 }
 
 

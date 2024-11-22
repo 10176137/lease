@@ -9,5 +9,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-07-24 15:48:00
 */
 public interface ApartmentLabelService extends IService<ApartmentLabel> {
-
+	boolean  saveOrUpdate(Long apartmentLabelId, long apartmentId);
 }

@@ -9,5 +9,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
 * @createDate 2023-07-24 15:48:00
 */
 public interface ApartmentFeeValueService extends IService<ApartmentFeeValue> {
-
+	 boolean  saveOrUpdate(Long apartmentFeeValueId, long apartmentId);
 }

@@ -8,6 +8,7 @@
         select * from attr_key where is_deleted = 0
     </select>
     <resultMap id="AttrKeyVo" type="com.atguigu.lease.web.admin.vo.attr.AttrKeyVo">
+        <id column="id" property="id"/>
         <collection property="attrValueList" column="id" select="attrValueList"/>
     </resultMap>
     <select id="attrValueList" resultType="com.atguigu.lease.web.admin.vo.attr.AttrKeyVo">
