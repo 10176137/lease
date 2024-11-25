@@ -21,8 +21,11 @@ public class mvcconfiguration implements WebMvcConfigurer {
 	StringConvertReleaseStatus stringConvertReleaseStatus;
 	@Autowired
 	StringtoAppointmentStatus stringtoAppointmentStatus;
-@Autowired
+	@Autowired
 	StringToLeaseStatus stringToLeaseStatus;
+
+	@Autowired
+	StringToConvertFactory stringToConvertFactory;
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		// 拦截所有请求，通过判断是否有 @LoginRequired 注解 决定是否需要登录
@@ -32,11 +35,11 @@ public class mvcconfiguration implements WebMvcConfigurer {
 
 	@Override
 	public void addFormatters(FormatterRegistry registry) {
-		registry.addConverter(stringToListController);
-		registry.addConverter(stringConvertReleaseStatus);
-		registry.addConverter(stringConvertItemType);
-		registry.addConverter(stringtoAppointmentStatus);
-		registry.addConverter(stringToLeaseStatus);
+
+		registry.addConverterFactory(stringToConvertFactory);
 	}
+
+
+
 
 }

@@ -10,5 +10,6 @@ import lombok.Data;
 public class AttrValueVo extends AttrValue {
 
     @Schema(description = "对应的属性key_name")
+
     private String attrKeyName;
 }

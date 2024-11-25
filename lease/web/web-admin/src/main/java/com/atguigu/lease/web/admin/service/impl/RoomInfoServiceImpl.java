@@ -3,6 +3,7 @@ package com.atguigu.lease.web.admin.service.impl;
 import com.atguigu.lease.model.entity.RoomInfo;
 import com.atguigu.lease.web.admin.mapper.RoomInfoMapper;
 import com.atguigu.lease.web.admin.service.RoomInfoService;
+import com.atguigu.lease.web.admin.vo.room.RoomDetailVo;
 import com.atguigu.lease.web.admin.vo.room.RoomItemVo;
 import com.atguigu.lease.web.admin.vo.room.RoomQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -19,15 +20,22 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class RoomInfoServiceImpl extends ServiceImpl<RoomInfoMapper, RoomInfo>
-        implements RoomInfoService {
+		implements RoomInfoService {
 
 	@Autowired
 	private RoomInfoMapper roomInfoMapper;
+
 	@Override
 	public IPage<RoomItemVo> pageItem(long current, long size, RoomQueryVo queryVo) {
 		Page<RoomInfo> page = new Page<>(current, size);
-		roomInfoMapper.pageItem(page , new LambdaQueryWrapper<RoomInfo>().eq(RoomInfo::getApartmentId,queryVo.getApartmentId()) ,queryVo);
-		return null;
+		IPage<RoomItemVo> roomVoList = roomInfoMapper.pageItem(page, new LambdaQueryWrapper<RoomInfo>().eq(queryVo.getApartmentId() != null, RoomInfo::getApartmentId, queryVo.getApartmentId()), queryVo);
+		return roomVoList;
+	}
+
+	@Override
+	public RoomDetailVo getDetailById(Long id) {
+		RoomDetailVo roomDetailVo = roomInfoMapper.getDetailById(id);
+		return roomDetailVo;
 	}
 }
 

@@ -3,5 +3,119 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.atguigu.lease.web.admin.mapper.RoomInfoMapper">
+    <select id="pageItem" resultMap="RoomItemVo">
+        select room_info.* from room_info
+        join apartment_info as ai on apartment_id = ai.id
+        <where>
+            ${ew.sqlSegment}
+            <if test="queryVo.provinceId != null">
+                and #{queryVo.provinceId} = ai.province_id
+            </if>
+            <if test="queryVo.cityId !=null ">
+                and #{queryVo.cityId} = ai.city_id
+            </if>
+            <if test="queryVo.districtId != null">
+                and #{queryVo.districtId} = ai.district_Id
+            </if>
+        </where>
 
+    </select>
+    <resultMap id="RoomItemVo" type="com.atguigu.lease.web.admin.vo.room.RoomItemVo">
+        <id property="id" column="id"/>
+        <association property="leaseEndDate" column="id" select="leaseEndDate"/>
+        <association property="isCheckIn" column="id" select="isCheckIn"/>
+        <association property="apartmentInfo" column="apartment_id" select="apartmentInfo"/>
+    </resultMap>
+    <select id="leaseEndDate" resultType="java.time.LocalDateTime">
+        select lease_agreement.lease_end_date
+        from lease_agreement
+        where #{id} = room_id
+    </select>
+    <select id="isCheckIn" resultType="Boolean">
+        select IF(count(*) > 0, 1, 0)
+        from lease_agreement
+        where #{id} = room_id and is_deleted = 0
+    </select>
+    <select id="apartmentInfo" resultType="com.atguigu.lease.model.entity.ApartmentInfo">
+        select *
+        from apartment_info
+        where id = #{apartment_id}
+    </select>
+
+    <select id="getDetailById" resultMap="RoomDetailVo">
+        select *
+        from room_info
+        where id = #{id}
+    </select>
+
+    <resultMap id="RoomDetailVo" type="com.atguigu.lease.web.admin.vo.room.RoomDetailVo">
+        <id property="id" column="id"/>
+        <result property="apartmentId" column="apartment_id"/>
+        <association property="apartmentInfo" column="apartment_id" select="apartmentInfo_room"/>
+        <collection property="attrValueVoList" column="id" select="attrValueVoList"/>
+        <collection property="graphVoList" column="id" select="graphVoList"/>
+        <collection property="facilityInfoList" column="id" select="facilityInfoList"/>
+        <collection property="labelInfoList" column="id" select="labelInfoList"/>
+        <collection property="leaseTermList" column="id" select="leaseTermList"/>
+        <collection property="paymentTypeList" column="id" select="paymentTypeList"/>
+    </resultMap>
+
+    <select id="attrValueVoList" resultMap="attrValueVo">
+        select *
+        from room_attr_value
+                 join attr_value av on attr_value_id = av.id
+        where room_id = #{id}
+          and room_attr_value.is_deleted = 0
+    </select>
+
+    <resultMap id="attrValueVo" type="com.atguigu.lease.web.admin.vo.attr.AttrValueVo">
+        <id property="id" column="attr_value_id"/>
+        <result property="attrKeyId" column="attr_key_id"/>
+        <association property="attrKeyName" column="attr_key_id" select="attrKeyName"/>
+    </resultMap>
+    <select id="attrKeyName" resultType="String">
+        select attr_key.name
+        from attr_key
+        where id = #{attr_key_id}
+    </select>
+
+    <select id="graphVoList" resultType="com.atguigu.lease.web.admin.vo.graph.GraphVo">
+        select *
+        from graph_info
+        where item_id = #{id}
+          and item_type = 2
+    </select>
+    <select id="facilityInfoList" resultType="com.atguigu.lease.model.entity.FacilityInfo">
+        select *
+        from facility_info fi
+                 join room_facility on facility_id = fi.id
+        where room_facility.room_id = #{id}
+          and room_facility.is_deleted = 0
+    </select>
+    <select id="labelInfoList" resultType="com.atguigu.lease.model.entity.LabelInfo">
+        select *
+        from label_info li
+                 join room_label on label_id = li.id
+        where room_label.room_id = #{id}
+          and room_label.is_deleted = 0
+    </select>
+    <select id="leaseTermList" resultType="com.atguigu.lease.model.entity.LeaseTerm">
+        select *
+        from lease_term lt
+                 join room_lease_term on room_lease_term.lease_term_id = lt.id
+        where room_lease_term.room_id = #{id}
+          and room_lease_term.is_deleted = 0
+    </select>
+    <select id="paymentTypeList" resultType="com.atguigu.lease.model.entity.PaymentType">
+        select *
+        from payment_type pt
+                 join room_payment_type on room_payment_type.payment_type_id = pt.id
+        where room_payment_type.room_id = #{id}
+          and room_payment_type.is_deleted = 0
+    </select>
+    <select id="apartmentInfo_room" resultType="com.atguigu.lease.model.entity.ApartmentInfo">
+        select *
+        from apartment_info
+        where id = #{apartment_id}
+    </select>
 </mapper>

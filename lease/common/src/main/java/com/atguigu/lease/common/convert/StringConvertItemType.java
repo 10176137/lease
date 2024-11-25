@@ -1,7 +1,6 @@
 package com.atguigu.lease.common.convert;
 
 import com.atguigu.lease.model.enums.ItemType;
-import com.atguigu.lease.model.enums.ReleaseStatus;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.stereotype.Component;

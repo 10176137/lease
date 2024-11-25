@@ -1,12 +1,14 @@
 package com.atguigu.lease.web.admin.mapper;
 
 import com.atguigu.lease.model.entity.RoomInfo;
+import com.atguigu.lease.web.admin.vo.room.RoomDetailVo;
 import com.atguigu.lease.web.admin.vo.room.RoomItemVo;
 import com.atguigu.lease.web.admin.vo.room.RoomQueryVo;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.apache.ibatis.annotations.Param;
 
 /**
 * @author liubo
@@ -16,7 +18,9 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 */
 public interface RoomInfoMapper extends BaseMapper<RoomInfo> {
 
-	void pageItem(Page<RoomInfo> page, LambdaQueryWrapper<RoomInfo> eq, RoomQueryVo queryVo);
+	IPage<RoomItemVo>  pageItem(Page<RoomInfo> page, @Param("ew") LambdaQueryWrapper<RoomInfo> eq, RoomQueryVo queryVo);
+
+	RoomDetailVo getDetailById(Long id);
 }
 
 
